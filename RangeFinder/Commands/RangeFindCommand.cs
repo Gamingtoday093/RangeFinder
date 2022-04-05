@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using RangeFinder.Models;
-using SDG.Unturned;
 
 namespace RangeFinder.Commands
 {
@@ -30,12 +29,13 @@ namespace RangeFinder.Commands
         {
             UnturnedPlayer player = (UnturnedPlayer)caller;
 
-            Vector3 markerLocation = new Vector3(player.Player.quests.markerPosition.x, player.Position.y, player.Player.quests.markerPosition.z);
-            if (markerLocation == null)
+            if (!player.Player.quests.isMarkerPlaced)
             {
                 UnturnedChat.Say(player, RangeFinder.Instance.Translate("RNoMarker"), RangeFinder.Instance.MessageColour);
                 return;
             }
+
+            Vector3 markerLocation = new Vector3(player.Player.quests.markerPosition.x, player.Position.y, player.Player.quests.markerPosition.z);
             Vector3 playerLocation = player.Position;
 
             float distance = Vector3.Distance(playerLocation, markerLocation);
